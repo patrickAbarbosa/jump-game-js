@@ -41,17 +41,18 @@
         largura: 50,
         cor: '#ff4e4e',
         velocidade: 0,
-        gravidade: 5,
-        forcaPulo: 40,
+        gravidade: 1.6,
+        forcaPulo: 20,
         nPulos: 0,
 
         atualiza: function(){
           this.velocidade += this.gravidade;
           this.y += this.velocidade;
 
-          if(this.y > chao.y - this.altura){
+          if(this.y > chao.y - this.altura && estadoAtual != estados.perdeu){
             this.y = chao.y - this.altura;
             this.nPulos = 0;
+            this.velocidade = 0;
           }
         },
 
@@ -62,6 +63,11 @@
           }
         },
 
+        reset: function() {
+          this.velocidade = 0;
+          this.y = 0;
+        },
+        
         desenha: function(){
           ctx.fillStyle = this.cor;
           ctx.fillRect(this.x, this.y, this.altura, this.largura);
@@ -123,8 +129,11 @@
             bloco.pula();
         else if(estadoAtual == estados.jogar)
           estadoAtual = estados.jogando;
-        else if(estadoAtual == estados.perdeu)
-            estadoAtual = estados.jogar;
+        else if(estadoAtual == estados.perdeu){
+          estadoAtual = estados.jogar;
+          obstaculos.limpa();
+          bloco.reset();
+        }
       }
       function main(){
         altura = window.innerHeight;
@@ -160,9 +169,7 @@
         if(estadoAtual == estados.jogando)
           obstaculos.atualiza();
           
-        else if(estadoAtual == estados.perdeu)
-          obstaculos.limpa();
-
+        
       }
 
       function desenha(){
