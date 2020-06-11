@@ -15,7 +15,6 @@
   </style>
   </head>
   <body>
-    <h1 id="score">0</h1>
     <script>
       //variáveis
       var canvas, ctx, altura, largura, frames = 0, maxPulos = 3, velocidade = 6,
@@ -69,12 +68,6 @@
           this.velocidade = 0;
           this.y = 0;
           this.score = 0;
-          this.updateScore();
-        },
-
-        updateScore: function() {
-          var text = document.getElementById("score");
-          text.innerText = bloco.score;
         },
 
         desenha: function(){
@@ -112,10 +105,8 @@
             if(bloco.x < obs.x + obs.largura && bloco.x + bloco.largura >= obs.x && bloco.y + bloco.altura >= chao.y - obs.altura){
               estadoAtual = estados.perdeu;
             }
-            else if(obs.x == 0){
+            else if(obs.x == 0)
               bloco.score++;
-              bloco.updateScore();
-            }
             else if(obs.x <= -obs.largura){
               this._obs.splice(i, 1);
               tam--;
@@ -189,6 +180,10 @@
         ctx.fillStyle = "#50beff";
         ctx.fillRect(0, 0, largura,  altura);
 
+        ctx.fillStyle = "#FFFFFF";
+        ctx.font = "50px Arial";
+        ctx.fillText(bloco.score, 10, 50);
+        
         if(estadoAtual == estados.jogar){
             ctx.fillStyle = "green";
             ctx.fillRect(largura / 2 - 50, altura/2 - 50, 100, 100);
