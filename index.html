@@ -41,8 +41,8 @@
         largura: 50,
         cor: '#ff4e4e',
         velocidade: 0,
-        gravidade: 9.8,
-        forcaPulo: 50,
+        gravidade: 5,
+        forcaPulo: 40,
         nPulos: 0,
 
         atualiza: function(){
@@ -94,12 +94,19 @@
 
             obs.x -= velocidade;
 
-            if(obs.x <= -obs.largura){
+            if(bloco.x < obs.x + obs.largura && bloco.x + bloco.largura >= obs.x && bloco.y + bloco.altura >= chao.y - obs.altura){
+              estadoAtual = estados.perdeu;
+            }
+            else if(obs.x <= -obs.largura){
               this._obs.splice(i, 1);
               tam--;
               i--;
             }
           }
+        },
+
+        limpa: function() {
+          this._obs = [];
         },
 
         desenha: function(){
@@ -152,6 +159,9 @@
 
         if(estadoAtual == estados.jogando)
           obstaculos.atualiza();
+          
+        else if(estadoAtual == estados.perdeu)
+          obstaculos.limpa();
 
       }
 
