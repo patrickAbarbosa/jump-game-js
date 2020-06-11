@@ -15,6 +15,7 @@
   </style>
   </head>
   <body>
+    <h1 id="score">0</h1>
     <script>
       //variáveis
       var canvas, ctx, altura, largura, frames = 0, maxPulos = 3, velocidade = 6,
@@ -44,6 +45,7 @@
         gravidade: 1.6,
         forcaPulo: 20,
         nPulos: 0,
+        score: 0,
 
         atualiza: function(){
           this.velocidade += this.gravidade;
@@ -66,8 +68,15 @@
         reset: function() {
           this.velocidade = 0;
           this.y = 0;
+          this.score = 0;
+          this.updateScore();
         },
-        
+
+        updateScore: function() {
+          var text = document.getElementById("score");
+          text.innerText = bloco.score;
+        },
+
         desenha: function(){
           ctx.fillStyle = this.cor;
           ctx.fillRect(this.x, this.y, this.altura, this.largura);
@@ -99,9 +108,13 @@
             var obs = this._obs[i];
 
             obs.x -= velocidade;
-
+            
             if(bloco.x < obs.x + obs.largura && bloco.x + bloco.largura >= obs.x && bloco.y + bloco.altura >= chao.y - obs.altura){
               estadoAtual = estados.perdeu;
+            }
+            else if(obs.x == 0){
+              bloco.score++;
+              bloco.updateScore();
             }
             else if(obs.x <= -obs.largura){
               this._obs.splice(i, 1);
