@@ -103,6 +103,9 @@
             obs.x -= velocidade;
             
             if(bloco.x < obs.x + obs.largura && bloco.x + bloco.largura >= obs.x && bloco.y + bloco.altura >= chao.y - obs.altura){
+              var record = localStorage.getItem('recordScore');
+              if(!record || record < bloco.score)
+                localStorage.setItem('recordScore', bloco.score);
               estadoAtual = estados.perdeu;
             }
             else if(obs.x == 0)
