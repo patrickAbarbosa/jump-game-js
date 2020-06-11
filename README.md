@@ -1,4 +1,4 @@
-#Jump Game
+# Jump Game
 
 Jump Game is studies of javascript and canvas to browser
 
